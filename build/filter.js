@@ -49,7 +49,7 @@
     return ctx.getImageData(0, 0, c.width, c.height);
   };
   Image.prototype.filter = function() {
-    var end, filter, filters, img_data, start, total_start, _i, _len;
+    var end, filter, filters, img_data, start, total_end, total_start, _i, _len;
     filters = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
     img_data = get_image_data(image);
     total_start = new Date();
@@ -58,21 +58,23 @@
       start = new Date();
       img_data = filter.process(img_data);
       end = new Date();
-      debug("" + filter.constructor.name + " finished in " + (end - start) + "ms.");
+      debug("=> " + filter.constructor.name + " finished in " + (end - start) + "ms.");
     }
+    total_end = new Date();
+    debug("Applied " + filters.length + " filters in " + (total_end - total_start) + "ms.");
     return img_data;
   };
   window.Filter = (function() {
     function Filter(settings) {
       this.settings = settings != null ? settings : {};
-      this.process = __bind(this.process, this);
+      this.process = __bind(this.process, this);;
       this.settings = extend({}, this.constructor.defaults, this.settings);
     }
     Filter.prototype.process = function(image_data) {
       var buffer, buffer_size, offset;
       buffer_size = image_data.width * image_data.height;
       buffer = image_data.data;
-      for (offset = 0; 0 <= buffer_size ? offset < buffer_size : offset > buffer_size; 0 <= buffer_size ? offset++ : offset--) {
+      for (offset = 0; (0 <= buffer_size ? offset < buffer_size : offset > buffer_size); (0 <= buffer_size ? offset += 1 : offset -= 1)) {
         this.processPixel(buffer, offset * 4);
       }
       return image_data;
@@ -80,11 +82,10 @@
     return Filter;
   })();
   window.InvertFilter = (function() {
-    __extends(InvertFilter, Filter);
     function InvertFilter() {
-      this.processPixel = __bind(this.processPixel, this);
-      InvertFilter.__super__.constructor.apply(this, arguments);
+      this.processPixel = __bind(this.processPixel, this);;      InvertFilter.__super__.constructor.apply(this, arguments);
     }
+    __extends(InvertFilter, Filter);
     InvertFilter.prototype.processPixel = function(buffer, offset) {
       buffer[offset] = 255 - buffer[offset];
       buffer[offset + 1] = 255 - buffer[offset + 1];
@@ -93,11 +94,10 @@
     return InvertFilter;
   })();
   window.GreyscaleFilter = (function() {
-    __extends(GreyscaleFilter, Filter);
     function GreyscaleFilter() {
-      this.processPixel = __bind(this.processPixel, this);
-      GreyscaleFilter.__super__.constructor.apply(this, arguments);
+      this.processPixel = __bind(this.processPixel, this);;      GreyscaleFilter.__super__.constructor.apply(this, arguments);
     }
+    __extends(GreyscaleFilter, Filter);
     GreyscaleFilter.defaults = {
       r: 0.21,
       g: 0.71,
@@ -116,11 +116,10 @@
     return GreyscaleFilter;
   })();
   window.OpacityFilter = (function() {
-    __extends(OpacityFilter, Filter);
     function OpacityFilter() {
-      this.processPixel = __bind(this.processPixel, this);
-      OpacityFilter.__super__.constructor.apply(this, arguments);
+      this.processPixel = __bind(this.processPixel, this);;      OpacityFilter.__super__.constructor.apply(this, arguments);
     }
+    __extends(OpacityFilter, Filter);
     OpacityFilter.defaults = {
       factor: 0.50
     };

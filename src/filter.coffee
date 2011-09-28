@@ -32,7 +32,9 @@ Image.prototype.filter = (filters...) ->
     start = new Date()
     img_data = filter.process(img_data)
     end = new Date()
-    debug("#{filter.constructor.name} finished in #{end-start}ms.")
+    debug("=> #{filter.constructor.name} finished in #{end-start}ms.")
+  total_end = new Date()
+  debug "Applied #{filters.length} filters in #{total_end-total_start}ms."
   img_data
 
 # Base class for a filter.
