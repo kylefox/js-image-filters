@@ -1,0 +1,28 @@
+<html>
+<head>
+  <title>Image Filters</title>
+  <script src="build/filter.js" type="text/javascript" charset="utf-8"></script>
+  <link rel="stylesheet" href="styles.css" type="text/css" />
+</head>
+<body onload="init();">
+  <img id="image" src="demo.jpg" width="480" height="320" />
+  <canvas id="canvas" width="480" height="320"></canvas>
+  
+  <script type="text/javascript" charset="utf-8">
+    var img, canvas, output, filtered;
+    
+    function init() {
+      img = document.getElementById('image');
+      canvas  = document.getElementById('canvas');
+      output = canvas.getContext('2d');
+      
+      filtered = img.filter(
+        new GreyscaleFilter(),
+        new InvertFilter(),
+        new OpacityFilter()
+      );
+      output.putImageData(filtered, 0, 0);
+    }
+  </script>
+</body>
+</html>
