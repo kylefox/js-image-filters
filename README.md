@@ -1,5 +1,7 @@
 Allows you to sequentially apply filters to images (`Image` or `HTMLImageElement`). These are just basic experiments with modifying image data using the `canvas` element. The code is written in CoffeeScript, but can be used with normal JavaScript.
 
+_The demo works best in Safari because other browsers have security limitations that prevent them accessing image data from local files. Things will work fine if the images/scripts are served off the same domain, however._
+
 Basic Use
 =========
 
