@@ -67,14 +67,14 @@
   window.Filter = (function() {
     function Filter(settings) {
       this.settings = settings != null ? settings : {};
-      this.process = __bind(this.process, this);;
+      this.process = __bind(this.process, this);
       this.settings = extend({}, this.constructor.defaults, this.settings);
     }
     Filter.prototype.process = function(image_data) {
       var buffer, buffer_size, offset;
       buffer_size = image_data.width * image_data.height;
       buffer = image_data.data;
-      for (offset = 0; (0 <= buffer_size ? offset < buffer_size : offset > buffer_size); (0 <= buffer_size ? offset += 1 : offset -= 1)) {
+      for (offset = 0; 0 <= buffer_size ? offset < buffer_size : offset > buffer_size; 0 <= buffer_size ? offset++ : offset--) {
         this.processPixel(buffer, offset * 4);
       }
       return image_data;
@@ -82,10 +82,11 @@
     return Filter;
   })();
   window.InvertFilter = (function() {
-    function InvertFilter() {
-      this.processPixel = __bind(this.processPixel, this);;      InvertFilter.__super__.constructor.apply(this, arguments);
-    }
     __extends(InvertFilter, Filter);
+    function InvertFilter() {
+      this.processPixel = __bind(this.processPixel, this);
+      InvertFilter.__super__.constructor.apply(this, arguments);
+    }
     InvertFilter.prototype.processPixel = function(buffer, offset) {
       buffer[offset] = 255 - buffer[offset];
       buffer[offset + 1] = 255 - buffer[offset + 1];
@@ -94,10 +95,11 @@
     return InvertFilter;
   })();
   window.GreyscaleFilter = (function() {
-    function GreyscaleFilter() {
-      this.processPixel = __bind(this.processPixel, this);;      GreyscaleFilter.__super__.constructor.apply(this, arguments);
-    }
     __extends(GreyscaleFilter, Filter);
+    function GreyscaleFilter() {
+      this.processPixel = __bind(this.processPixel, this);
+      GreyscaleFilter.__super__.constructor.apply(this, arguments);
+    }
     GreyscaleFilter.defaults = {
       r: 0.21,
       g: 0.71,
@@ -116,10 +118,11 @@
     return GreyscaleFilter;
   })();
   window.OpacityFilter = (function() {
-    function OpacityFilter() {
-      this.processPixel = __bind(this.processPixel, this);;      OpacityFilter.__super__.constructor.apply(this, arguments);
-    }
     __extends(OpacityFilter, Filter);
+    function OpacityFilter() {
+      this.processPixel = __bind(this.processPixel, this);
+      OpacityFilter.__super__.constructor.apply(this, arguments);
+    }
     OpacityFilter.defaults = {
       factor: 0.50
     };
